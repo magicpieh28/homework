@@ -31,9 +31,9 @@ class Model():
         X = [x1 + x2 for (x1, x2) in zip(X1, X2)] #[(X1[0] + X2[0]), (X1[1] + X2[1]), (X1[2] + X2[2])]
         AF1 = [np.tanh(x) for x in X] #[tanh(X[0]), tanh(X[1]), tanh(X[2])]
         AF2 = [x * w for (x, w) in zip(AF1, weight2)] #[AF1[0]w21, AF1[1]w22, AF1[2]w23]
-        target = np.tanh(np.sum(AF2)) #tanh(sum(AF2))
-        print(f'target => {target}')
-        return target
+        output = np.tanh(np.sum(AF2)) #tanh(sum(AF2))
+        print(f'output => {output}')
+        return output
 
 
     def loss(num: dict):
