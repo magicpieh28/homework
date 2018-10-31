@@ -1,8 +1,4 @@
 import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
 
 
 b1, b2, b3 = 1.0, 2.0, 3.0
@@ -11,6 +7,7 @@ very = 'very'
 Not = 'not'
 good = 'good'
 bad = 'bad'
+
 x1, x2 = 'x1', 'x2'
 
 table = {very :1.0, Not :0.0, good : 1.0, bad : 0.0}
