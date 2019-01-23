@@ -51,7 +51,7 @@ class CollinsParser:
 		for i in range(length):
 			chart.append([])
 			for j in range(length):
-				chart[i].append([words[j-1]] * length)
+				chart[i].append([None] * length)
 		self.chart = chart
 		print(f"self.chart => {self.chart}")
 		print(f"chart[0][1][0] => {chart[0][1][0]}")
@@ -59,7 +59,6 @@ class CollinsParser:
 		# add 1-length spans to the chart
 		for i in range(0, len(words)):
 			span = CollinsSpan(i, i+1, i, 0.0)
-			print(f"span in initSpan => {span.__dict__}")
 			self.addSpan(span)
 
 	def addSpan(self, new_span):
@@ -69,6 +68,7 @@ class CollinsParser:
 		if old_span is None or old_span.score < new_span.score:
 			# update chart
 			self.chart[i][j][h] = new_span
+		print(f"self.chart => {self.chart}")
 
 	def getScore(self, words, head, dep):
 		# currently, use naive scoring function
