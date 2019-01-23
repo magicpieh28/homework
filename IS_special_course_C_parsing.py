@@ -5,8 +5,8 @@ class CollinsSpan:
 		self.h = h
 		self.score = score
 
-	def span(self):
-		return self.i, self.j, self.h, self.score
+	def __str__(self):
+		return "(%s, %s, %s, %s)" % (self.i, self.j, self.h, self.score)
 
 class CollinsParser:
 	def __init__(self):
@@ -23,11 +23,9 @@ class CollinsParser:
 				print(f"j => {j}")
 				if j > len(words): break
 				for k in range(i+1, j):
-					print(f"k => {k}")
+					# print(f"k => {k}")
 					for h_l in range(i, k):
-						print(f"h_l => {h_l}")
 						for h_r in range(k, j):
-							print(f"h_r => {h_r}")
 							# merge spans
 							span_l = self.chart[i][k][h_l]
 							print(f"span_l => {span_l.__dict__}")
@@ -35,14 +33,19 @@ class CollinsParser:
 							print(f"span_r => {span_r.__dict__}")
 
 							# left -> right
-							score = self.getScore(words, span_l, span_r)
-							span = CollinsSpan(i, j, h_l, score)
+							l_score = self.getScore(words, span_l, span_r)
+							print(f"l->r score => {l_score}")
+							span = CollinsSpan(i, k, h_l, l_score)
 							self.addSpan(span)
 
 							# right -> left
-							score = self.getScore(words, span_r, span_l)
-							span = CollinsSpan(i, j, h_r, score)
+							r_score = self.getScore(words, span_r, span_l)
+							print(f"l<-r score => {r_score}")
+							span = CollinsSpan(k, j, h_r, r_score)
 							self.addSpan(span)
+
+							# if l_score > r_score:
+							# 	#Noneの代わりにスコアが低い奴が入るべき
 
 	def initSpans(self, words):
 		# initialize chart as 3-dimensional list
@@ -54,7 +57,6 @@ class CollinsParser:
 				chart[i].append([None] * length)
 		self.chart = chart
 		print(f"self.chart => {self.chart}")
-		print(f"chart[0][1][0] => {chart[0][1][0]}")
 
 		# add 1-length spans to the chart
 		for i in range(0, len(words)):
@@ -62,17 +64,19 @@ class CollinsParser:
 			self.addSpan(span)
 
 	def addSpan(self, new_span):
-		print(f"new_span => {new_span.__dict__}")
 		i, j, h = new_span.i, new_span.j, new_span.h
 		old_span = self.chart[i][j][h]
 		if old_span is None or old_span.score < new_span.score:
 			# update chart
 			self.chart[i][j][h] = new_span
-		print(f"self.chart => {self.chart}")
 
 	def getScore(self, words, head, dep):
 		# currently, use naive scoring function
+		print(f"head => {head, words[head.h]}")
+		print(f"deb => {dep, words[dep.h]}")
 		h_word = words[head.h]
+		print(f"h_word => {h_word}")
+		print(f"self.chart => {self.chart}")
 		if h_word == "read":
 			score = 1.0
 		elif h_word == "novel":
