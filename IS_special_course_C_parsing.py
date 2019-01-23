@@ -18,9 +18,7 @@ class CollinsParser:
 		# merge spans in a bottom-up manner
 		for l in range(1, len(words)+1):
 			for i in range(0, len(words)):
-				print(f"i => {i}")
 				j = i + l
-				print(f"j => {j}")
 				if j > len(words): break
 				for k in range(i+1, j):
 					# print(f"k => {k}")
@@ -28,24 +26,19 @@ class CollinsParser:
 						for h_r in range(k, j):
 							# merge spans
 							span_l = self.chart[i][k][h_l]
-							print(f"span_l => {span_l.__dict__}")
 							span_r = self.chart[k][j][h_r]
-							print(f"span_r => {span_r.__dict__}")
 
 							# left -> right
 							l_score = self.getScore(words, span_l, span_r)
-							print(f"l->r score => {l_score}")
-							span = CollinsSpan(i, k, h_l, l_score)
+							span = CollinsSpan(i, j, h_l, l_score)
 							self.addSpan(span)
 
 							# right -> left
 							r_score = self.getScore(words, span_r, span_l)
-							print(f"l<-r score => {r_score}")
-							span = CollinsSpan(k, j, h_r, r_score)
+							span = CollinsSpan(i, j, h_r, r_score)
 							self.addSpan(span)
 
-							# if l_score > r_score:
-							# 	#Noneの代わりにスコアが低い奴が入るべき
+		return self.findBest(0, len(words))
 
 	def initSpans(self, words):
 		# initialize chart as 3-dimensional list
@@ -56,7 +49,7 @@ class CollinsParser:
 			for j in range(length):
 				chart[i].append([None] * length)
 		self.chart = chart
-		print(f"self.chart => {self.chart}")
+		# print(f"self.chart => {self.chart}")
 
 		# add 1-length spans to the chart
 		for i in range(0, len(words)):
@@ -72,11 +65,7 @@ class CollinsParser:
 
 	def getScore(self, words, head, dep):
 		# currently, use naive scoring function
-		print(f"head => {head, words[head.h]}")
-		print(f"deb => {dep, words[dep.h]}")
 		h_word = words[head.h]
-		print(f"h_word => {h_word}")
-		print(f"self.chart => {self.chart}")
 		if h_word == "read":
 			score = 1.0
 		elif h_word == "novel":
@@ -94,6 +83,7 @@ class CollinsParser:
 			if best_span is None or best_span.score < span.score:
 				best_span = span
 		return best_span
+
 
 p = CollinsParser()
 
