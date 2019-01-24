@@ -38,7 +38,7 @@ class CollinsParser:
 							span = CollinsSpan(i, j, h_r, r_score)
 							self.addSpan(span)
 
-		return self.findBest(0, len(words))
+		return print(self.findBest(0, len(words)))
 
 	def initSpans(self, words):
 		# initialize chart as 3-dimensional list
@@ -87,5 +87,5 @@ class CollinsParser:
 
 p = CollinsParser()
 
-result = p.parse(["She", "read", "a", "short", "novel"])
-print(result)
+words = ["She", "read", "a", "short", "novel"]
+p.parse(words)
