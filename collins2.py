@@ -41,10 +41,8 @@ class CollinsParser:
 							h, score = self.addSpan(span)
 							pair[h] = score
 
-		best = self.findBest(0, len(words))
 		self.pair = pair
-		print(f"self.pair => {self.pair}")
-		return best
+		return print(self.findBest(0, len(words)))
 
 	def initSpans(self, words):
 		# initialize chart as 3-dimensional list
@@ -107,13 +105,12 @@ class CollinsParser:
 				except ValueError:
 					head = words[best_span.h]
 					heads[idx] = head
-		print(f"heads => {heads}")
+		return print(heads)
 
 
 p = CollinsParser()
 
 words = ["She", "read", "a", "short", "novel"]
 pos_tags = ["PR", "V", "DT", "JJ", "N"]
-result = p.parse(words, pos_tags)
+p.parse(words, pos_tags)
 p.print_head(words)
-print(result)
