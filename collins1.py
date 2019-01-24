@@ -95,7 +95,7 @@ class CollinsParser:
 		scores = [score for score in self.pair.values()]
 		best_span = self.findBest(0, len(words))
 		for idx in range(0, len(words)):
-			if best_span.score != scores[idx]:
+			if best_span.h != idx:
 				try:
 					head = words[scores.index(max(scores[idx+1:]))]
 					heads[idx] = head
